@@ -9,7 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lilohuang/exiftool": "^1.0.10"
+    "@lilohuang/exiftool": "^1.0.10",
+    "@lilohuang/zeroperl-ts": "1.0.11"
   },
   "devDependencies": {
     "vite": "^7.1.0"
