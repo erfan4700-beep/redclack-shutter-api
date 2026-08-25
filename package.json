@@ -1,0 +1,17 @@
+{
+  "name": "redclack-shutter-browser",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@lilohuang/exiftool": "^1.0.10"
+  },
+  "devDependencies": {
+    "vite": "^7.1.0"
+  }
+}
