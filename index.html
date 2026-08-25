@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#090909" />
+    <title>تعداد شاتر کلاکت قرمز</title>
+  </head>
+  <body>
+    <main class="shell">
+      <section class="card">
+        <div class="brand">RED CLACK</div>
+        <h1>تعداد شاتر دوربینت رو پیدا کن</h1>
+        <p class="lead">فایل اصلی و ویرایش‌نشده دوربین را انتخاب کن. پردازش داخل مرورگر انجام می‌شود و عکس برای استخراج متادیتا به سرور ما ارسال نمی‌شود.</p>
+
+        <label class="drop" id="dropZone" for="fileInput">
+          <input id="fileInput" type="file" accept=".jpg,.jpeg,.cr2,.cr3,.nef,.arw,.raf,.orf,.rw2,.dng,.pef,.srw,.tif,.tiff,image/*" />
+          <span class="drop-title">انتخاب فایل دوربین</span>
+          <span class="drop-sub">JPEG یا RAW اصلی دوربین</span>
+        </label>
+
+        <div id="fileInfo" class="file-info hidden"></div>
+        <button id="analyzeBtn" class="primary" disabled>بررسی تعداد شاتر</button>
+
+        <div id="status" class="status hidden" role="status" aria-live="polite"></div>
+
+        <section id="result" class="result hidden">
+          <div class="result-grid">
+            <div><span>برند</span><strong id="make">—</strong></div>
+            <div><span>مدل</span><strong id="model">—</strong></div>
+            <div><span>نوع فایل</span><strong id="fileType">—</strong></div>
+          </div>
+          <div id="shutterBox" class="shutter-box">
+            <span>تعداد شاتر</span>
+            <strong id="shutterCount">—</strong>
+            <small id="sourceTag"></small>
+          </div>
+          <p id="message" class="message"></p>
+          <details id="debugDetails" class="debug hidden">
+            <summary>جزئیات متادیتای مرتبط</summary>
+            <pre id="debugOutput"></pre>
+          </details>
+        </section>
+
+        <p class="note">توجه: نبودن عدد شاتر در فایل به معنی خرابی دوربین نیست. بعضی مدل‌ها این اطلاعات را داخل فایل ذخیره نمی‌کنند یا ExifTool برای آن مدل تگ قابل‌اعتمادی ندارد.</p>
+      </section>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
