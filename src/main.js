@@ -1,6 +1,9 @@
 import { parseMetadata } from '@lilohuang/exiftool';
 import './style.css';
 
+const ZEROPERL_WASM_URL = 'https://cdn.jsdelivr.net/npm/@lilohuang/zeroperl-ts@1.0.11/zeroperl.wasm';
+const fetchZeroPerlWasm = () => fetch(ZEROPERL_WASM_URL);
+
 const fileInput = document.querySelector('#fileInput');
 const analyzeBtn = document.querySelector('#analyzeBtn');
 const fileInfo = document.querySelector('#fileInfo');
@@ -139,6 +142,7 @@ analyzeBtn.addEventListener('click', async () => {
 
   try {
     const output = await parseMetadata(selectedFile, {
+      fetch: fetchZeroPerlWasm,
       args: ['-json', '-a', '-u', '-G1', '-s', '-n'],
       transform: (data) => JSON.parse(data),
     });
@@ -182,7 +186,11 @@ analyzeBtn.addEventListener('click', async () => {
     resultBox.classList.remove('hidden');
   } catch (error) {
     console.error(error);
-    setStatus(`خطا: ${error?.message || 'فایل قابل پردازش نبود.'}`, 'error');
+    const rawMessage = String(error?.message || 'فایل قابل پردازش نبود.');
+    const friendlyMessage = rawMessage.includes('expected magic word')
+      ? 'موتور ExifTool درست بارگذاری نشد. صفحه را یک‌بار کامل رفرش کن و دوباره امتحان کن.'
+      : rawMessage;
+    setStatus(`خطا: ${friendlyMessage}`, 'error');
   } finally {
     analyzeBtn.disabled = false;
   }
