@@ -3,6 +3,7 @@ import zeroperlWasmUrl from '@lilohuang/zeroperl-ts/zeroperl.wasm?url';
 import './style.css';
 
 const fetchZeroPerlWasm = () => fetch(zeroperlWasmUrl);
+const SHUTTER_TEST_LOG_URL = 'https://script.google.com/macros/s/AKfycbywbAnkCaAHoJ6mnXn4WZcZl7VRJ74O6Q8NUYEpQDwP-YST4u5qGaKgVTp-OR7b-C-jGQ/exec';
 
 const fileInput = document.querySelector('#fileInput');
 const analyzeBtn = document.querySelector('#analyzeBtn');
@@ -95,6 +96,27 @@ function resetResult() {
   debugOutput.textContent = '';
 }
 
+async function logSuccessfulTest({ make, model, fileType, shutterCount, sourceTag }) {
+  try {
+    await fetch(SHUTTER_TEST_LOG_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8',
+      },
+      body: JSON.stringify({
+        make: String(make),
+        model: String(model),
+        fileType: String(fileType),
+        shutterCount,
+        sourceTag: String(sourceTag),
+      }),
+    });
+  } catch (error) {
+    console.warn('Could not log successful shutter test:', error);
+  }
+}
+
 function selectFile(file) {
   selectedFile = file || null;
   resetResult();
@@ -171,6 +193,14 @@ analyzeBtn.addEventListener('click', async () => {
       sourceTagEl.textContent = `منبع: ${shutter.sourceTag}`;
       messageEl.textContent = 'این عدد مستقیماً از تگ شاتر داخل متادیتای فایل استخراج شده و تخمین زده نشده است.';
       setStatus('تعداد شاتر پیدا شد.', 'success');
+
+      logSuccessfulTest({
+        make,
+        model,
+        fileType,
+        shutterCount: shutter.count,
+        sourceTag: shutter.sourceTag,
+      });
     } else {
       shutterCountEl.textContent = 'قابل استخراج نیست';
       sourceTagEl.textContent = '';
